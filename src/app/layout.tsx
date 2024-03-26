@@ -1,4 +1,6 @@
 import Navbar from '@/components/navbar'
+import MaxWidthWrapper from '@/components/ui/max-width-wrapper'
+import { cn } from '@/lib/utils'
 import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
 import './globals.css'
@@ -15,9 +17,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={GeistSans.className}>
-        <Navbar />
-        {children}
+      <body
+        className={cn(
+          'relative h-screen w-full  antialiased',
+          GeistSans.className,
+        )}
+      >
+        <MaxWidthWrapper>
+          <Navbar />
+          {children}
+        </MaxWidthWrapper>
       </body>
     </html>
   )

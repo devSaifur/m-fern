@@ -11,8 +11,10 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
+import MobileNav from './mobile-nav'
+import { Icons } from './ui/icons'
 
-const collections: { title: string; href: string }[] = [
+export const collections: { title: string; href: string }[] = [
   {
     title: 'Chair',
     href: '/collections/chair',
@@ -60,11 +62,13 @@ const NavLinks = [
 
 export default function Navbar() {
   return (
-    <NavigationMenu>
+    <NavigationMenu className="mx-auto">
       <NavigationMenuList>
-        <NavigationMenuItem>Grid99</NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>All Collections</NavigationMenuTrigger>
+        <NavigationMenuItem className="uppercase">Grid</NavigationMenuItem>
+        <NavigationMenuItem className="hidden sm:inline-flex">
+          <Link href="/collections">
+            <NavigationMenuTrigger>All Collections</NavigationMenuTrigger>
+          </Link>
           <NavigationMenuContent>
             {collections.map((collection) => (
               <Link
@@ -84,7 +88,7 @@ export default function Navbar() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         {NavLinks.map((link) => (
-          <NavigationMenuItem key={link.href}>
+          <NavigationMenuItem className="hidden sm:inline-flex" key={link.href}>
             <Link href={link.href} legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 {link.title}
@@ -92,6 +96,33 @@ export default function Navbar() {
             </Link>
           </NavigationMenuItem>
         ))}
+
+        <div className="flex">
+          <NavigationMenuItem className="hidden sm:inline-flex">
+            <Link href="/user" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <Icons.user className="size-4" />
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <Link href="/search" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <Icons.search className="size-4" />
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+
+          <MobileNav />
+
+          <NavigationMenuItem>
+            <Link href="/cart" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <Icons.cart className="size-4" />
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        </div>
       </NavigationMenuList>
     </NavigationMenu>
   )
