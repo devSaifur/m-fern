@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["aposs"]
+  "cSpell.words": ["aposs"],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

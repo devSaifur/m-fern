@@ -89,6 +89,17 @@ export default function MobileNav() {
             </Link>
           ))}
         </nav>
+        <div className="flex gap-x-4 pt-6">
+          <Link href="/account">
+            <Icons.instagram className="size-4" />
+          </Link>
+          <Link href="/account">
+            <Icons.facebook className="size-4" />
+          </Link>
+          <Link href="/account">
+            <Icons.youtube className="size-4" />
+          </Link>
+        </div>
       </SheetContent>
     </Sheet>
   )

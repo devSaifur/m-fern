@@ -19,14 +19,14 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          'relative h-screen w-full  antialiased',
+          'relative h-screen w-full text-base antialiased',
           GeistSans.className,
         )}
       >
         <MaxWidthWrapper>
           <Navbar />
-          {children}
         </MaxWidthWrapper>
+        {children}
       </body>
     </html>
   )
