@@ -1,6 +1,7 @@
 'use client'
-
 import Link from 'next/link'
+import MobileNav from './mobile-nav'
+import { Icons } from './ui/icons'
 
 import {
   NavigationMenu,
@@ -11,8 +12,10 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
-import MobileNav from './mobile-nav'
-import { Icons } from './ui/icons'
+import { cn } from '@/lib/utils'
+
+import Image from 'next/image'
+import Fern from '../../public/images/Fern.jpeg'
 
 export const collections: { title: string; href: string }[] = [
   {
@@ -62,23 +65,35 @@ const NavLinks = [
 
 export default function Navbar() {
   return (
-    <NavigationMenu className="mx-auto">
-      <NavigationMenuList>
-        <NavigationMenuItem className="uppercase">Grid</NavigationMenuItem>
-        <NavigationMenuItem className="hidden sm:inline-flex">
-          <Link href="/collections">
-            <NavigationMenuTrigger>All Collections</NavigationMenuTrigger>
+    <NavigationMenu className="mx-auto pt-6 sm:pt-12">
+      <NavigationMenuList className="gap-x-28 sm:gap-x-2">
+        <NavigationMenuItem>
+          <Link href="/">
+            <Image
+              src={Fern}
+              sizes='sizes="(max-width: 768px) 15vw, (max-width: 1200px) 20vw, 20vw"'
+              alt="Store logo"
+              className="w-20 rounded-xl sm:w-24"
+            />
           </Link>
-          <NavigationMenuContent>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem className="hidden sm:inline-flex">
+          <NavigationMenuTrigger className="bg-transparent text-xl text-white">
+            <Link href="/collections">All Collection</Link>
+          </NavigationMenuTrigger>
+
+          <NavigationMenuContent className="left-28 flex flex-col gap-y-6 bg-transparent bg-none py-10 text-xl md:w-72">
             {collections.map((collection) => (
               <Link
                 href={collection.href}
                 legacyBehavior
                 passHref
                 key={collection.href}
+                className="bg-transparent"
               >
                 <NavigationMenuLink
-                  className={navigationMenuTriggerStyle()}
+                  className={'bg-transparent'}
                   key={collection.title}
                 >
                   {collection.title}
@@ -87,28 +102,45 @@ export default function Navbar() {
             ))}
           </NavigationMenuContent>
         </NavigationMenuItem>
+
         {NavLinks.map((link) => (
           <NavigationMenuItem className="hidden sm:inline-flex" key={link.href}>
             <Link href={link.href} legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <NavigationMenuLink
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  'bg-transparent text-xl text-white',
+                )}
+              >
                 {link.title}
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
         ))}
 
-        <div className="flex">
+        <div className="flex gap-x-4">
           <NavigationMenuItem className="hidden sm:inline-flex">
             <Link href="/user" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                <Icons.user className="size-4" />
+              <NavigationMenuLink
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  'bg-transparent text-white',
+                )}
+              >
+                <Icons.user className="size-6" />
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
+
           <NavigationMenuItem>
             <Link href="/search" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                <Icons.search className="size-4" />
+              <NavigationMenuLink
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  'bg-transparent text-white',
+                )}
+              >
+                <Icons.search className="size-6" />
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
@@ -117,8 +149,13 @@ export default function Navbar() {
 
           <NavigationMenuItem>
             <Link href="/cart" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                <Icons.cart className="size-4" />
+              <NavigationMenuLink
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  'bg-transparent text-white',
+                )}
+              >
+                <Icons.cart className="size-6" />
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>

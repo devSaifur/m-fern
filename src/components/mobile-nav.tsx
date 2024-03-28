@@ -67,7 +67,7 @@ export default function MobileNav() {
   return (
     <Sheet>
       <SheetTrigger className="sm:hidden">
-        <Icons.menu className="size-4" />
+        <Icons.menu className="size-6 text-white" />
       </SheetTrigger>
       <SheetContent>
         <Accordion type="single" collapsible className="w-full">

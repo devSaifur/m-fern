@@ -37,7 +37,7 @@ const collections = [
 export default function Home() {
   return (
     <main>
-      <div className="absolute top-0 grid h-3/5 w-full place-content-center sm:h-3/4">
+      <div className="absolute top-0 grid h-2/5 w-full place-content-center sm:h-3/4">
         <Image
           src={HeroImage} // Default image
           alt="home-hero"
@@ -49,23 +49,29 @@ export default function Home() {
         <Image
           src={HeroImageLarge} // Default image
           alt="home-hero"
-          className="-z-50 hidden object-cover sm:block"
+          className="-z-50 hidden object-cover brightness-50 sm:block"
           fill
           sizes="100vw"
           placeholder="blur"
         />
-        <div className="">
-          <h1 className="text-4xl font-bold">Modern Furniture</h1>
-          <h2 className="text-xl uppercase">For a better way to work</h2>
-          <Button variant="outline" className="">
+        <div className="flex flex-col gap-y-3 text-center text-white sm:gap-y-6">
+          <h1 className="text-4xl font-bold sm:text-7xl">Modern Furniture</h1>
+          <h2 className="text-xl font-light uppercase">
+            For a better way to work
+          </h2>
+          <Button
+            variant="outline"
+            className="mx-auto bg-transparent font-bold"
+            size="lg"
+          >
             Shop now
           </Button>
         </div>
       </div>
 
       <MaxWidthWrapper className="flex flex-col gap-8">
-        <section className="pt-[35rem] sm:pt-[45rem]">
-          <h2 className="text-4xl font-bold">
+        <section className="grid gap-y-4 pt-96 text-center sm:pt-[45rem]">
+          <h2 className="text-3xl font-bold sm:text-4xl">
             We do work furniture a little bit different.
           </h2>
           <p>
