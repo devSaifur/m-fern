@@ -6,6 +6,7 @@ import useEmblaCarousel, {
 import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
+import useScreenSizes from '@/hooks/useScreenSize'
 import { cn } from '@/lib/utils'
 import { Icons } from './icons'
 
@@ -58,9 +59,12 @@ const Carousel = React.forwardRef<
     },
     ref,
   ) => {
+    const { width } = useScreenSizes()
+
     const [carouselRef, api] = useEmblaCarousel(
       {
         ...opts,
+        slidesToScroll: width < 745 ? 2 : 5,
         axis: orientation === 'horizontal' ? 'x' : 'y',
       },
       plugins,
@@ -206,7 +210,7 @@ const CarouselPrevious = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        !canScrollPrev ? 'hidden' : 'absolute size-16 rounded-full',
+        !canScrollPrev ? 'hidden' : 'absolute size-8 rounded-full',
         orientation === 'horizontal'
           ? '-left-12 top-1/2 -translate-y-1/2'
           : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
@@ -216,7 +220,7 @@ const CarouselPrevious = React.forwardRef<
       onClick={scrollPrev}
       {...props}
     >
-      <Icons.circleChevronLeft className="size-10 fill-black text-white" />
+      <Icons.circleChevronLeft className="size-8 fill-black text-white" />
       <span className="sr-only">Previous slide</span>
     </Button>
   )
@@ -235,7 +239,7 @@ const CarouselNext = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        !canScrollNext ? 'hidden' : 'absolute size-16 rounded-full',
+        !canScrollNext ? 'hidden' : 'absolute size-8 rounded-full',
         orientation === 'horizontal'
           ? '-right-12 top-1/2 -translate-y-1/2'
           : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',

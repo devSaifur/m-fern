@@ -9,7 +9,7 @@ import {
 import { Icons } from './ui/icons'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 
-export const NavLinks = [
+const NavLinks = [
   {
     title: 'Elevating Desk Series',
     href: 'collections/elevating-desk',
@@ -40,7 +40,7 @@ export const NavLinks = [
   },
 ]
 
-export const collections: { title: string; href: string }[] = [
+const collections: { title: string; href: string }[] = [
   {
     title: 'Chair',
     href: '/collections/chair',

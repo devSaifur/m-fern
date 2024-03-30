@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          'h-screen w-full text-base font-normal antialiased',
+          'min-h-dvh w-full text-base font-normal antialiased',
           GeistSans.className,
         )}
       >

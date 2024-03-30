@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import {
   Carousel,
@@ -12,8 +12,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { cn } from '@/lib/utils'
 import HeroImageLarge from '../../public/images/home-hero-large.jpg'
 import HeroImage from '../../public/images/home-hero.jpg'
+
+import { Icons } from '@/components/ui/icons'
+import { faker } from '@faker-js/faker'
 
 const collections = [
   {
@@ -35,13 +39,15 @@ const collections = [
 ]
 
 export default function Home() {
+  const products = generateProducts()
+
   return (
-    <main>
+    <main className="space-y-12 pb-16">
       <div className="absolute top-0 grid h-2/5 w-full place-content-center sm:h-3/4">
         <Image
           src={HeroImage} // Default image
           alt="home-hero"
-          className="-z-50 object-cover sm:hidden"
+          className="-z-50 object-cover brightness-50 sm:hidden"
           fill
           sizes="100vw"
           placeholder="blur"
@@ -80,18 +86,18 @@ export default function Home() {
           </p>
         </section>
 
-        <section className="grid grid-cols-2 gap-4">
+        <section className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-0">
           {collections.map(({ name, src }) => (
-            <Link href={`/collections/${name}`} key={name}>
-              <div className="relative size-40">
+            <Link href={`/collections/${name.toLowerCase()}`} key={name}>
+              <div className="relative size-48 sm:size-80">
                 <Image
                   src={src}
-                  className="object-cover"
+                  className="object-cover brightness-75"
                   alt={name}
                   fill
                   sizes="(max-width: 768px) 20vw, (max-width: 1200px) 20vw, 20vw"
                 />
-                <p className="absolute bottom-2 left-2 flex items-center">
+                <p className="absolute bottom-2 left-2 flex items-center text-xl font-bold text-white sm:bottom-6 sm:left-6 sm:text-2xl">
                   {name}
                 </p>
               </div>
@@ -100,73 +106,211 @@ export default function Home() {
         </section>
 
         <section>
-          <h2 className="mx-auto">Featured</h2>
+          <h2 className="pb-6 text-center text-lg uppercase">Featured</h2>
           <Tabs defaultValue="chair" className="w-full">
-            <TabsList className="w-full gap-x-16 border border-red-500">
-              <TabsTrigger value="chair">Chair</TabsTrigger>
-              <TabsTrigger value="table">Table</TabsTrigger>
+            <TabsList className="w-full gap-x-16">
+              <TabsTrigger
+                className="pb-6 text-xl font-bold md:text-3xl"
+                value="chair"
+              >
+                Chair
+              </TabsTrigger>
+              <TabsTrigger
+                className="pb-6 text-xl font-bold md:text-3xl"
+                value="table"
+              >
+                Table
+              </TabsTrigger>
             </TabsList>
-            <TabsContent value="chair">
+            <TabsContent value="chair" className="grid gap-y-4 md:gap-y-8">
               <Carousel
                 opts={{
                   align: 'center',
                 }}
-                className="w-full max-w-sm"
+                className="mx-auto w-full max-w-sm lg:max-w-5xl"
               >
                 <CarouselContent>
-                  {Array.from({ length: 5 }).map((_, index) => (
+                  {products.map((product, index) => (
                     <CarouselItem
+                      className="basis-1/2 lg:basis-1/5"
                       key={index}
-                      className="md:basis-1/2 lg:basis-1/3"
                     >
-                      <div className="p-1">
-                        <Card>
-                          <CardContent className="flex aspect-square items-center justify-center p-6">
-                            <span className="text-3xl font-semibold">
-                              {index + 1}
-                            </span>
-                          </CardContent>
-                        </Card>
-                      </div>
+                      <Link href={product.href}>
+                        <div key={product.name}>
+                          <Card>
+                            <CardContent className="relative flex aspect-square items-center justify-center p-6">
+                              <Image
+                                src={product.src} // Default image
+                                alt="home-hero"
+                                className="object-cover brightness-75"
+                                fill
+                                sizes="(max-width: 768px) 35vw, (max-width: 1200px) 35vw, 35vw"
+                              />
+                            </CardContent>
+                          </Card>
+                        </div>
+                        <div>
+                          <p>{product.name}</p>
+                          <p>{product.price}</p>
+                        </div>
+                      </Link>
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="left-0" />
-                <CarouselNext className="right-0" />
+                <CarouselPrevious className="left-2 top-24 border-none bg-transparent" />
+                <CarouselNext className="right-2 top-24 border-none bg-transparent" />
               </Carousel>
+
+              <Link
+                href="/collection/chair"
+                className={cn(
+                  'mx-auto',
+                  buttonVariants({ variant: 'default' }),
+                )}
+              >
+                View all
+              </Link>
             </TabsContent>
-            <TabsContent value="table">
+            <TabsContent value="table" className="grid gap-y-4 md:gap-y-8">
               <Carousel
                 opts={{
                   align: 'center',
                 }}
-                className="w-full max-w-sm"
+                className="mx-auto w-full max-w-sm lg:max-w-5xl"
               >
                 <CarouselContent>
-                  {Array.from({ length: 5 }).map((_, index) => (
+                  {products.map((product, index) => (
                     <CarouselItem
+                      className="basis-1/2 lg:basis-1/5"
                       key={index}
-                      className="md:basis-1/2 lg:basis-1/3"
                     >
-                      <div className="p-1">
-                        <Card>
-                          <CardContent className="flex aspect-square items-center justify-center p-6">
-                            <span className="text-3xl font-semibold">
-                              {index + 1}
-                            </span>
-                          </CardContent>
-                        </Card>
-                      </div>
+                      <Link href={product.href}>
+                        <div key={product.name}>
+                          <Card>
+                            <CardContent className="relative flex aspect-square items-center justify-center p-6">
+                              <Image
+                                src={product.src} // Default image
+                                alt="home-hero"
+                                className="object-cover brightness-75"
+                                fill
+                                sizes="(max-width: 768px) 35vw, (max-width: 1200px) 35vw, 35vw"
+                              />
+                            </CardContent>
+                          </Card>
+                        </div>
+                        <div>
+                          <p>{product.name}</p>
+                          <p>{product.price}</p>
+                        </div>
+                      </Link>
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="left-0" />
-                <CarouselNext className="right-0" />
+                <CarouselPrevious className="left-2 top-24 border-none bg-transparent" />
+                <CarouselNext className="right-2 top-24 border-none bg-transparent" />
               </Carousel>
+
+              <Link
+                href="/collection/table"
+                className={cn(
+                  'mx-auto',
+                  buttonVariants({ variant: 'default' }),
+                )}
+              >
+                View all
+              </Link>
             </TabsContent>
           </Tabs>
         </section>
       </MaxWidthWrapper>
+
+      <section className="relative flex flex-col overflow-hidden sm:h-[50dvh]">
+        <video
+          width="320"
+          height="240"
+          muted
+          playsInline
+          autoPlay={true}
+          loop={true}
+          preload="none"
+          className="w-full object-center"
+        >
+          <source src="/videos/home-video.webm" type="video/webm" />
+          Your browser does not support the video tag.
+        </video>
+
+        <div className="absolute left-[5%] top-1/4 hidden max-w-md space-y-4 bg-white px-12 py-8 md:block">
+          <h2 className="text-4xl font-bold">M-FERN Furniture</h2>
+          <p className="text-2xl">For 21st Century Living</p>
+          <p className="text-justify">
+            We&apos;re a furniture brand that carries everything needed to make
+            your house or office look modern with minimal furniture&apos;s and
+            boosts up your work energy!
+          </p>
+        </div>
+      </section>
+
+      <MaxWidthWrapper>
+        <section className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <div className="flex flex-col items-center justify-center gap-y-4">
+            <Icons.package className="size-12" />
+            <h3 className="text-3xl font-bold">Free Shipping</h3>
+            <p className="text-center">
+              FREE home delivery with assembling inside Dhaka within 3 days and
+              5-7 days anywhere in Bangladesh. Inside Dhaka City, we offer free
+              home delivery to the ground floor through courier.
+            </p>
+          </div>
+          <div className="flex flex-col items-center justify-center gap-y-4">
+            <Icons.shieldCheck className="size-12" />
+            <h3 className="text-3xl font-bold">Returns & Warranty</h3>
+            <p className="text-center">
+              M-FERN provides an easy, hassle-free servicing system where we
+              pick up your product from your home if there is any problem and
+              get it back to you.
+            </p>
+          </div>
+          <div className="flex flex-col items-center justify-center gap-y-4">
+            <Icons.wallet className="size-12" />
+            <h2 className="text-3xl font-bold">EMI Policy</h2>
+            <p className="text-center">
+              To avail EMI, Place your order through Website and share your
+              order ID in our Inbox. We will share the EMI payment link.
+            </p>
+          </div>
+        </section>
+      </MaxWidthWrapper>
     </main>
   )
+}
+
+type Product = {
+  name: string
+  price: string
+  href: string
+  src: string
+}
+
+function generateProducts() {
+  const products: Product[] = []
+  for (let i = 0; i < 15; i++) {
+    const productName = faker.commerce.productName()
+    const productPrice = faker.commerce.price({
+      min: 100,
+      max: 1000,
+      symbol: '$',
+    })
+    const productImages = faker.image.url({
+      width: 640,
+      height: 480,
+    })
+
+    products.push({
+      name: productName,
+      price: productPrice,
+      href: `/products/${productName}`,
+      src: productImages,
+    })
+  }
+  return products
 }

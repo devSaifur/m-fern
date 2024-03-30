@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Fern from '../../public/images/Fern.jpeg'
 
-export const collections: { title: string; href: string }[] = [
+const collections: { title: string; href: string }[] = [
   {
     title: 'Chair',
     href: '/collections/chair',
