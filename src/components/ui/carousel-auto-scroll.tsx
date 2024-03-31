@@ -116,7 +116,7 @@ const CarouselAutoScrollContent = React.forwardRef<
   } = useCarousel()
 
   return (
-    <div ref={carouselRef} className="overflow-hidden">
+    <div ref={carouselRef} className="flex flex-col overflow-hidden">
       <div
         ref={ref}
         className={cn(
@@ -126,16 +126,22 @@ const CarouselAutoScrollContent = React.forwardRef<
         )}
         {...props}
       />
-      <div className="flex">
+      <div className="mx-auto mt-6 flex gap-x-4 bg-transparent sm:hidden">
         {scrollSnaps?.map((_, index) => (
           <DotButton
             key={index}
-            onClick={() => onDotButtonClick?.(index)}
-            className={'selected'.concat(
-              index === selectedIndex
-                ? ' data-selected size-2 rounded-full border border-white'
-                : '',
-            )}
+            onClick={(e) => {
+              e.stopPropagation()
+              if (!onDotButtonClick) {
+                return
+              }
+              onDotButtonClick(index)
+            }}
+            className="mx-auto size-3 rounded-full border border-white"
+            style={{
+              backgroundColor:
+                index === selectedIndex ? 'white' : 'transparent',
+            }}
           />
         ))}
       </div>
