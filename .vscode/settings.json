@@ -1,4 +1,12 @@
 {
-  "cSpell.words": ["aposs", "Embla", "webm"],
+  "cSpell.words": [
+    "aposs",
+    "autoplay",
+    "Embla",
+    "ipfs",
+    "loremflickr",
+    "picsum",
+    "webm"
+  ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

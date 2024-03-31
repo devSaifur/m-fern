@@ -1,22 +1,28 @@
 'use client'
 
-import { cn } from '@/lib/utils'
-import AutoScroll from 'embla-carousel-auto-scroll'
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from 'embla-carousel-react'
 import * as React from 'react'
 
+import AutoScroll from 'embla-carousel-auto-scroll'
+import AutoPlay from 'embla-carousel-autoplay'
+
+import useScreenSizes from '@/hooks/useScreenSize'
+import { cn } from '@/lib/utils'
+import { DotButton, useDotButton } from './carousel-dot-button'
+
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
 type CarouselOptions = UseCarouselParameters[0]
-type CarouselPlugin = UseCarouselParameters[1]
 
 type CarouselProps = {
   opts?: CarouselOptions
-  plugins?: CarouselPlugin
   orientation?: 'horizontal' | 'vertical'
   setApi?: (api: CarouselApi) => void
+  scrollSnaps?: number[]
+  onDotButtonClick?: (index: number) => void
+  selectedIndex?: number
 }
 
 type CarouselContextProps = {
@@ -30,13 +36,13 @@ function useCarousel() {
   const context = React.useContext(CarouselContext)
 
   if (!context) {
-    throw new Error('useCarousel must be used within a <Carousel />')
+    throw new Error('useCarousel must be used within a <CarouselAutoScroll />')
   }
 
   return context
 }
 
-const Carousel = React.forwardRef<
+const CarouselAutoScroll = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & CarouselProps
 >(
@@ -44,41 +50,22 @@ const Carousel = React.forwardRef<
     { orientation = 'horizontal', opts, setApi, className, children, ...props },
     ref,
   ) => {
+    const { width } = useScreenSizes()
+
     const [carouselRef, api] = useEmblaCarousel(
       {
         ...opts,
+        slidesToScroll: width < 745 ? 1 : 3,
         axis: orientation === 'horizontal' ? 'x' : 'y',
       },
-      [AutoScroll({ playOnInit: true })],
+      [
+        width < 745
+          ? AutoPlay({ playOnInit: true, delay: 5000 })
+          : AutoScroll({ playOnInit: true, speed: 1 }),
+      ],
     )
 
-    const [isPlaying, setIsPlaying] = React.useState(false)
-
-    const onButtonAutoplayClick = React.useCallback(
-      (callback: () => void) => {
-        const autoScroll = api?.plugins()?.autoScroll
-        if (!autoScroll) return
-
-        const resetOrStop = () =>
-          autoScroll.options.active === false
-            ? autoScroll.reset
-            : autoScroll.stop
-
-        resetOrStop()
-        callback()
-      },
-      [api],
-    )
-
-    const toggleAutoplay = React.useCallback(() => {
-      const autoScroll = api?.plugins()?.autoScroll
-      if (!autoScroll) return
-
-      const playOrStop = autoScroll.isPlaying()
-        ? autoScroll.stop
-        : autoScroll.play
-      playOrStop()
-    }, [api])
+    const { scrollSnaps, onDotButtonClick, selectedIndex } = useDotButton(api)
 
     React.useEffect(() => {
       if (!api || !setApi) {
@@ -94,6 +81,9 @@ const Carousel = React.forwardRef<
           carouselRef,
           api: api,
           opts,
+          scrollSnaps,
+          onDotButtonClick,
+          selectedIndex,
           orientation:
             orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
         }}
@@ -111,13 +101,19 @@ const Carousel = React.forwardRef<
     )
   },
 )
-Carousel.displayName = 'Carousel'
+CarouselAutoScroll.displayName = 'CarouselAutoScroll'
 
-const CarouselContent = React.forwardRef<
+const CarouselAutoScrollContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
-  const { carouselRef, orientation } = useCarousel()
+  const {
+    carouselRef,
+    orientation,
+    scrollSnaps,
+    onDotButtonClick,
+    selectedIndex,
+  } = useCarousel()
 
   return (
     <div ref={carouselRef} className="overflow-hidden">
@@ -130,12 +126,25 @@ const CarouselContent = React.forwardRef<
         )}
         {...props}
       />
+      <div className="flex">
+        {scrollSnaps?.map((_, index) => (
+          <DotButton
+            key={index}
+            onClick={() => onDotButtonClick?.(index)}
+            className={'selected'.concat(
+              index === selectedIndex
+                ? ' data-selected size-2 rounded-full border border-white'
+                : '',
+            )}
+          />
+        ))}
+      </div>
     </div>
   )
 })
-CarouselContent.displayName = 'CarouselContent'
+CarouselAutoScrollContent.displayName = 'CarouselContent'
 
-const CarouselItem = React.forwardRef<
+const CarouselAutoScrollItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
@@ -155,6 +164,11 @@ const CarouselItem = React.forwardRef<
     />
   )
 })
-CarouselItem.displayName = 'CarouselItem'
+CarouselAutoScrollItem.displayName = 'CarouselItem'
 
-export { Carousel, CarouselContent, CarouselItem, type CarouselApi }
+export {
+  CarouselAutoScroll,
+  CarouselAutoScrollContent,
+  CarouselAutoScrollItem,
+  type CarouselApi,
+}
