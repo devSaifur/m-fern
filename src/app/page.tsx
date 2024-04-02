@@ -47,9 +47,10 @@ const collections = [
 export default function Home() {
   const products = generateProducts()
   const persons = generatePersons()
+  const images = generateImages()
 
   return (
-    <main className="space-y-12 pb-16">
+    <main className="space-y-12">
       <div className="absolute top-0 grid h-2/5 w-full place-content-center sm:h-3/4">
         <Image
           src={HeroImage} // Default image
@@ -324,6 +325,132 @@ export default function Home() {
           </CarouselAutoScrollContent>
         </CarouselAutoScroll>
       </section>
+
+      <MaxWidthWrapper className="space-y-16">
+        <section>
+          <h2 className="pb-8 text-center text-2xl font-extrabold sm:text-3xl">
+            Trusted By Top Companies
+          </h2>
+          <div className="mx-auto grid max-w-sm grid-cols-2 place-items-center gap-y-4 md:max-w-4xl md:grid-cols-5 md:gap-y-8">
+            {images.map((image, index) => (
+              <div className="relative h-16 w-32" key={index}>
+                <Image
+                  src={image}
+                  alt=""
+                  sizes="(max-width: 768px) 20vw, (max-width: 1200px) 30vw, 30vw"
+                  fill
+                  className="rounded-2xl"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto flex max-w-screen-lg flex-col gap-6 md:flex-row md:gap-16">
+          <div className="relative h-[30rem] w-full md:h-[42rem] md:w-1/2">
+            <Image
+              src={faker.image.url({ width: 320, height: 640 })}
+              alt=""
+              sizes="(max-width: 768px) 20vw, (max-width: 1200px) 30vw, 30vw"
+              fill
+            />
+          </div>
+          <div className="my-auto space-y-6 tracking-wide">
+            <div className="max-w-sm">
+              <h2 className="pb-6 text-start text-3xl font-extrabold sm:text-3xl">
+                We Create Meaningful Design
+              </h2>
+              <p>
+                We ensure you 100% authenticity and originality of the products
+                which are imported via China, Vietnam & Taiwan. We never want
+                you to compromise with the quality that is why we ensure you get
+                the best furniture delivered via M-FERN!
+              </p>
+              <div className="mt-8 space-y-4">
+                <p>
+                  1. We assure you 100% premium quality of our products and
+                  before the delivery of each product, we have 4 product experts
+                  who do the quality check while the product is ready for
+                  delivery.
+                </p>
+                <p>
+                  2. At GRID, we deliver you premium quality and stylish design
+                  which also delivers the meaning of elegance at your home.
+                </p>
+                <p>
+                  3. Our products are made of strong materials imported from
+                  China which ensure 100% durability.
+                </p>
+              </div>
+            </div>
+
+            <Button>Shop now</Button>
+          </div>
+        </section>
+
+        <section className="mx-auto flex max-w-screen-2xl flex-col gap-y-10 md:flex-row md:gap-16">
+          <div className="space-y-4">
+            <div className="relative size-96">
+              <Image
+                src={faker.image.url({ width: 460, height: 640 })}
+                alt=""
+                sizes="(max-width: 768px) 80vw, (max-width: 1200px) 30vw, 30vw"
+                fill
+              />
+            </div>
+            <div className="my-auto space-y-2 text-center tracking-wide">
+              <h2 className="text-lg font-extrabold md:text-2xl">
+                Exceptional Furniture For The Taskmasters
+              </h2>
+              <p>
+                We founded GRID: to make it easy for teams of all sizes to
+                create an office you love. We sell direct, so our collection
+                costs half as much as premium furniture of comparable quality.
+              </p>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <div className="relative size-96">
+              <Image
+                src={faker.image.url({ width: 460, height: 640 })}
+                alt=""
+                sizes="(max-width: 768px) 80vw, (max-width: 1200px) 30vw, 30vw"
+                fill
+              />
+            </div>
+            <div className="my-auto space-y-2 text-center tracking-wide">
+              <h2 className="text-lg font-extrabold md:text-2xl">
+                Exceptional Furniture For The Taskmasters
+              </h2>
+              <p>
+                We founded GRID: to make it easy for teams of all sizes to
+                create an office you love. We sell direct, so our collection
+                costs half as much as premium furniture of comparable quality.
+              </p>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <div className="relative size-96">
+              <Image
+                src={faker.image.url({ width: 460, height: 640 })}
+                alt=""
+                sizes="(max-width: 768px) 80vw, (max-width: 1200px) 30vw, 30vw"
+                fill
+              />
+            </div>
+            <div className="my-auto space-y-2 text-center tracking-wide">
+              <h2 className="text-lg font-extrabold md:text-2xl">
+                Exceptional Furniture For The Taskmasters
+              </h2>
+              <p>
+                We founded GRID: to make it easy for teams of all sizes to
+                create an office you love. We sell direct, so our collection
+                costs half as much as premium furniture of comparable quality.
+              </p>
+            </div>
+          </div>
+        </section>
+      </MaxWidthWrapper>
     </main>
   )
 }
@@ -368,4 +495,12 @@ function generatePersons() {
     })
   }
   return persons
+}
+
+function generateImages() {
+  const images: string[] = []
+  for (let i = 0; i < 10; i++) {
+    images.push(faker.image.url({ width: 640, height: 320 }))
+  }
+  return images
 }

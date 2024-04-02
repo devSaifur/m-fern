@@ -15,7 +15,7 @@ import {
 import { cn } from '@/lib/utils'
 
 import Image from 'next/image'
-import Fern from '../../public/images/Fern.jpeg'
+import Logo from '../../public/images/logo.jpeg'
 
 const collections: { title: string; href: string }[] = [
   {
@@ -70,7 +70,7 @@ export default function Navbar() {
         <NavigationMenuItem>
           <Link href="/">
             <Image
-              src={Fern}
+              src={Logo}
               sizes='sizes="(max-width: 768px) 15vw, (max-width: 1200px) 20vw, 20vw"'
               alt="Store logo"
               className="w-20 rounded-xl sm:w-24"
