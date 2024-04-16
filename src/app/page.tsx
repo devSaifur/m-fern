@@ -50,7 +50,7 @@ export default function Home() {
   const images = generateImages()
 
   return (
-    <main className="space-y-12">
+    <main className="space-y-20">
       <div className="absolute top-0 grid h-2/5 w-full place-content-center sm:h-3/4">
         <Image
           src={HeroImage} // Default image
@@ -326,14 +326,14 @@ export default function Home() {
         </CarouselAutoScroll>
       </section>
 
-      <MaxWidthWrapper className="space-y-16">
+      <MaxWidthWrapper className="space-y-16 md:space-y-40">
         <section>
           <h2 className="pb-8 text-center text-2xl font-extrabold sm:text-3xl">
             Trusted By Top Companies
           </h2>
-          <div className="mx-auto grid max-w-sm grid-cols-2 place-items-center gap-y-4 md:max-w-4xl md:grid-cols-5 md:gap-y-8">
+          <div className="mx-auto grid max-w-sm grid-cols-2 place-items-center gap-y-4 md:max-w-6xl md:grid-cols-5 md:gap-y-8">
             {images.map((image, index) => (
-              <div className="relative h-16 w-32" key={index}>
+              <div className="relative h-24 w-48" key={index}>
                 <Image
                   src={image}
                   alt=""
